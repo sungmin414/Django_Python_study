@@ -18,3 +18,9 @@
 ### 시간, 언어 설정
 + `LANGUAGE_CODE = 'ko-kr'`
 + `TIME_ZONE = 'Asia/Seoul'`
+
+### 앱등록
++ 애플리케이션 설정 클래스
+	+ 애플리케이션의 설정 클래스는 해당 애플리케이션에 대한 메타 정보를 저장하기 위한 클래스로, django.apps.AppConfig클래스를 상속받아 작성
+	+ 앱 설정 클래스에는 앱 이름(name) 레이블( label) 별칭( verbose_name) 경로(path) 등을 설정 할수 있으며 이름(name)은 필수 속성
+	+ 
