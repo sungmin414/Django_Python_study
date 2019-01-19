@@ -6,6 +6,7 @@
 	+ TITLE은 컬럼에대한 레이블, 레이블은 폼화면에 나타내는 문구
 + `SlugField('SLUG', unique=True, allow_unicode=True, help_text='one word for title alias.')`
 	+ slug 컬럼은 제목의 별칭
+	+ SlugField 필드의 디폴트 길이는 50이며, 해당필드에는 인덱스가 디폴트로 생성된다.
 	+ unique는 특정 포스트를 검색 시 기본 키 대신에 사용
 	+ allow_unicode는 한글 처리가능하게 해줌
 	+ help_text는 해당 컬럼을 설명해주는 문구로 폼화면에 나타냄
