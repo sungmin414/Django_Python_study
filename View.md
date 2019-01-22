@@ -2,6 +2,9 @@
 
 ### generic View
 
++ TemplateView
+	+ TemplateView를 사용하는 경우에는 template_name 클래스변수를 오버라이딩으로 지정해줘야함
+
 + ListView
 	+ 명시적으로 지정하지 않아도 장고에서 디폴트로 알아서 지정해주는 속성 2가지
 		1. 컨텍스트 변수로 object_list를 사용
@@ -23,6 +26,8 @@
 	+ TodayArchiveView = 테이블로부터 날짜 필드가 오늘인 객체 리스트를 가져와 그 리스트를 출력, 오늘 날짜 기준으로 연월일로 지정한다는 점 이외에는 DayArchiveView와 동일
 
 
+
+
 ### 속성
 + `model = 모델이름`
 	+ 사용할 모델을 불러올때
@@ -39,6 +44,7 @@
 	+ 디폴트는 False
 + `date_field = 'test'`
 	+ 기준이되는 날짜 필드는 test컬럼을 사용
+
 
 	
 	

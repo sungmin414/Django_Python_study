@@ -2,6 +2,12 @@
 
 
 ## blog templates
++ `&laquo;--` 는 html특수문자 << 를 의미
++ `--&raquo;` 는 html특수문자 >> 를 의미
++ `&amp;`는 html 특수문자 & 를 의미
++ `&bigtriangledown;`는 html 특수문자 &bigtriangledown; 의미
++ `&copy;`는 html 특수문자 &copy;를 의미
+
 ```
 <h1>Blog List</h1>
 
