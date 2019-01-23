@@ -8,7 +8,7 @@
 {% block content %}
 <div id="content_home">
     <div id="homeimg">
-        <a href="/"><img src="{% static 'img/django-actor-big.jpg' %}" style="height: 256px;" alt=""></a>
+        <a href="/"><img src="{% static 'img/hhj1.jpg' %}" style="height: 256px;" alt=""></a>
         <h4 style="margin: 0;">This is Django powered web site.</h4>
     </div>
 
@@ -18,14 +18,14 @@
 
     <table id="applist">
         <tr>
-            <td><b><i><a href="#">Bookmark</a></i></b></td>
+            <td><b><i><a href="{% url 'bookmark:index' %}">Bookmark</a></i></b></td>
             <td>You can write your own post and share to others. Donec id elit non miporta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo</td>
             <td class="Edit"><i><a href="#">Add</a></i></td>
             <td class="Edit"><i><a href="#">Change</a></i></td>
         </tr>
 
         <tr>
-            <td><b><i><a href="#">Blog</a></i></b></td>
+            <td><b><i><a href="{% url 'blog:index' %}">Blog</a></i></b></td>
             <td>You can write your own post and share to others. Donec id elit non miporta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo</td>
             <td class="Edit"><i><a href="#">Add</a></i></td>
             <td class="Edit"><i><a href="#">Change</a></i></td>
