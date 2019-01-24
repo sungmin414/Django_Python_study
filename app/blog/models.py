@@ -1,6 +1,7 @@
 from django.db import models
 # reverse() 함수는 URL 패턴을 만들어주는 장고의 내장 함수
 from django.urls import reverse
+from tagging.fields import TagField
 
 
 class Post(models.Model):
@@ -14,6 +15,8 @@ class Post(models.Model):
     create_date = models.DateTimeField('Create Date', auto_now_add=True)
     # auto_now 객체가 변결 될때의 시각이 기록
     modify_date = models.DateTimeField('Modify Date', auto_now=True)
+    # 태그 기능 필드
+    tag = TagField()
 
     class Meta:
         # 사용자가 읽기 쉬운 모델 객체의 이름관리

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tagging.apps.TaggingConfig',   # 태그 기능 앱 추가
 ]
 
 MIDDLEWARE = [

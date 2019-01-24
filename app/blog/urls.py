@@ -12,5 +12,8 @@ urlpatterns = [
     path('<int:year>/<month>/', PostMAV.as_view(), name='post_month_archive'),
     path('<int:year>/<month>/<int:day>/', PostDAV.as_view(), name='post_day_archive'),
     path('today/', PostTAV.as_view(), name='post_today_archive'),
+    # 태그 클라우드를 보여주기 위한 뷰로 템플릿 처리만 하면 되므로 TemplateView를 상속받아 정의
+    path('tag/', TagTV.as_view(), name='tag_cloud'),
+    path('tag/<tag>/', PostTOL.as_view(), name='tagged_object_list'),
 
 ]

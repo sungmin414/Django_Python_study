@@ -2,9 +2,15 @@ from django.shortcuts import render
 
 # ListView
 from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView, TodayArchiveView
+    DayArchiveView, TodayArchiveView, TemplateView
+from tagging.views import TaggedObjectList
 
 from .models import Post
+
+
+# 테이블 처리가 없이 단순히 템플릿 렌더링 처리만 하는뷰
+class TagTV(TemplateView):
+    template_name = 'tagging/tagging_cloud.html'
 
 
 class PostLV(ListView):
@@ -17,6 +23,12 @@ class PostLV(ListView):
     # paginate_by속성을 정의하는 것만으로도 장고가 제공하는 페이징 기능을 사용할수있음.
     # 페이징 기능이 활성화 되면 객체 리스트 하단에 페이지를 이동할수 있는 버튼을 만들 수 있다.
     paginate_by = 2
+
+
+# TaggedObjectList 클래스는 ListView를 상속 받는 뷰, 모델과 태그가 주어지면 태그가 달려 있는 모델의 객체리스트를 보여줌
+class PostTOL(TaggedObjectList):
+    model = Post
+    template_name = 'tagging/tagging_post_list.html'
 
 
 # DetailView
