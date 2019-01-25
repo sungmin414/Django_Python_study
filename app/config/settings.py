@@ -48,7 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tagging.apps.TaggingConfig',   # 태그 기능 앱 추가
+    'disqus',   # 댓글 기능
+    'django.contrib.sites',  # 댓글 기능
 ]
+# 댓글 기능 Shortname 등록
+DISQUS_WEBSITE_SHORTNAME = 'python-web-programming-django-9kscad0ndn'
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
