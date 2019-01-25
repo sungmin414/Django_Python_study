@@ -25,6 +25,10 @@
 	+ DayArchiveView = 테이블로부터 날짜 필드의 연월일을 기준으로 객체 리스트를 가져와, 그 리스트를 출력, 날짜 필드의 연도, 월, 일 파라미터는 URLconf에서 추출해 뷰로 넘겨줌
 	+ TodayArchiveView = 테이블로부터 날짜 필드가 오늘인 객체 리스트를 가져와 그 리스트를 출력, 오늘 날짜 기준으로 연월일로 지정한다는 점 이외에는 DayArchiveView와 동일
 
++ FormView
+	+ 양식을 표시하는보기. 오류시 유효성 검증 오류로 양식을 다시 표시합니다. 성공하면 새 URL로 리디렉션됩니다.
+	
+
 + TaggedObjectList
 	+ 태그 패키지 설치후 사용 (패키지모음에 사용법있음)
 	+ 템플릿 랜더링 처리만하는뷰(template_name)와 TOL(TaggedObjectList)는 ListView를 상속 받는뷰(model, template_name)(모델가 테그가 주어지면 태그가 달려있는 모델의 객체리스트를 보여줌)두개 나눠서 만들기
@@ -33,6 +37,8 @@
 ### 속성
 + `model = 모델이름`
 	+ 사용할 모델을 불러올때
++ `form_class = 폼클래스명`
+	+ 사용할 폼 클래스명 불러올때 
 + `template_name = 'xxxx.html'`
 	+ 사용할 템플릿 이름
 + `context_object_name = 'test'`

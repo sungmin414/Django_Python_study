@@ -1,10 +1,12 @@
+from django.db.models import Q
 from django.shortcuts import render
 
 # ListView
 from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView, TodayArchiveView, TemplateView
+    DayArchiveView, TodayArchiveView, TemplateView, FormView
 from tagging.views import TaggedObjectList
 
+from .forms import PostSearchForm
 from .models import Post
 
 
@@ -72,3 +74,36 @@ class PostDAV(DayArchiveView):
 class PostTAV(TodayArchiveView):
     model = Post
     date_field = 'modify_date'
+
+
+# FormView 제네릭 뷰는 GET 요청인 경우 폼을 화면에 보여주고 사용자의 입력을 기다림, 사용자가 폼에 데이터를 입력한 후 제출하면 이는
+# POST요청으로 접수되어 FormView 클래스는 데이터에 대한 유효성 검사를 함, 데이터가 유효하면 form_valid()함수를 실핸한 후에
+# 적절한 URL로 리다이렉트시키는 기능을 갖고 있음
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = 'blog/post_search.html'
+
+# POST 요청으로 들어온 데이터에 대한 유효성 검사를 실시해 에러가 없으면 form_valid() 메소드를 실행
+    def form_valid(self, form):
+        # POST 요청의 search_word 파라미터 값을 추출해, schWord 변수에 지정, search_word 파라미터는
+        # PostSearchForm 클래스에서 정의한 필드 id
+        schWord = self.request.POST['search_word']
+        # Q 객체는 filter() 메소드의 매칭 조건을 다양하게 줄수 있도록 함
+        # 3개의 조건을 OR 문장으로 연결
+        # 각조건의 icontains 연산자는 대소문자를 구분하지 않고 단어가 포함되어 있는지를 검사
+        # distinct() 메소드는 중복된 객체는 제외
+        # Post 테이블의 모든 레코드에 대해서 title, description, content 컬럼에 schWord 가 포함된 레코드를 대소문자 구별 없이 검색해
+        # 서로 다른 레코드들만 리스트로 만들어서 post_list 변수에 지정
+        post_list = Post.objects.filter(Q(title__icontains=schWord) | Q(description__icontains=schWord) | Q(content__icontains=schWord)).distinct()
+        # 템플릿에 넘겨줄 컨텍스트 변수 context 를 사전 형식으로 정의
+        context = {}
+        # form 객체, PostSearchForm 객체를 컨텍스트 변수 form에 지정
+        context['form'] = form
+        # 검색용 단어 schWord를 컨텍스트 변수 search_term에 지정
+        context['search_term'] = schWord
+        # 검색 결과 리스트인 post_list 를 컨텍스트 변수 object_list 에 지정
+        context['object_list'] = post_list
+        # 단축함수 render() 템플릿 파일과 컨텍스트 변수를 처리해
+        # 최종적으로 HttpResponse 객체를 반환함, form_valid() 함수는 보통 리다이렉트 처리를 위해 HttpResponseRedirect 객체를 반환하는데
+        # render 함수에 의해 리다이렉트 처리가 되지 않음
+        return render(self.request, self.template_name, context)
