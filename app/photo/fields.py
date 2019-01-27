@@ -4,7 +4,7 @@ import os
 
 
 # 기존 이미지 파일명을 기준으로 썸네일 이미지 파일명을 만들어준다.
-def __add_thumb(s):
+def _add_thumb(s):
     parts = s.split(".")
     parts.insert(-1, "thumb")
     # 이미지 확장자가 jpeg 또는 jpg 가 아니면 jpg로 변경
@@ -32,6 +32,7 @@ class ThumbnailImageFieldFile(ImageFieldFile):
         size = (128, 128)
         img.thumbnail(size, Image.ANTIALIAS)
         background = Image.new('RGBA', size, (255, 255, 255, 0))
+        background = background.convert('RGB')
         background.paste(img, (int((size[0] - img.size[0]) / 2), int((size[1] - img.size[1]) / 2)))
         background.save(self.thumb_path, 'JPEG')
 
