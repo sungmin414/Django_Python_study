@@ -6,8 +6,8 @@
 {% block extrastyle %}{% static 'photo/photo.css' %}{% endblock %}
 
 {% block content %}
-<div class="content">
-    <h2>{{ object_title }}</h2>
+<div id="content">
+    <h2>{{ object.title }}</h2>
 
     <table class="photo-detail">
         <tr>
@@ -18,8 +18,10 @@
             <td>
                 <ul>
                     <li>Photo Description</li>
-                    {% if object.description %} <p>{{ object.description|linebreaks }}</p>
-                    {% else %} <p>(blank)</p>
+                    {% if object.description %}
+                    <p>{{ object.description|linebreaks }}</p>
+                    {% else %}
+                    <p>(blank)</p>
                     {% endif %}
                     <li>Date Uploaded</li>
                     <p>{{ object.upload_date }}</p>
