@@ -1,6 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import models
 # reverse() 함수는 URL 패턴을 만들어주는 장고의 내장 함수
 from django.urls import reverse
+# slug 필드를 자동으로 채우기 위해 slugify() 함수를 임포트
+# slugify() 함수는 원래 단어를 알파벳 소문자 ,숫자,밑줄,하이픈으로만 구성된 단어로 만들어주는 함수
+from django.utils.text import slugify
 from tagging.fields import TagField
 
 
@@ -17,6 +21,7 @@ class Post(models.Model):
     modify_date = models.DateTimeField('Modify Date', auto_now=True)
     # 태그 기능 필드
     tag = TagField()
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
         # 사용자가 읽기 쉬운 모델 객체의 이름관리
@@ -43,5 +48,12 @@ class Post(models.Model):
     def get_next_post(self):
         return self.get_next_by_modify_date()
 
-
-
+    # save메소드 재정의
+    # save() 메소드는 모델 객체의 내용을 데이터베이스에 저장하는 메소드
+    # 데이터베이스 테이블에 저장시 self.id를 확인해 False 인 경우, 즉 처음으로 저장하는 경우에만 slug 필드를
+    # title 필드의 단어로 변환해 자동응로 채워줌
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title, allow_unicode=True)
+        # 부모 클래스의 save() 메소드를 호출해 객체의 내용을 테이블에 반영하는 save() 메소드의 원래 기능을 수행
+        super(Post, self).save(*args,  **kwargs)
