@@ -1,9 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render
 
 # ListView
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView, TodayArchiveView, TemplateView, FormView
+    DayArchiveView, TodayArchiveView, TemplateView, FormView, CreateView, UpdateView, DeleteView
 from tagging.views import TaggedObjectList
 
 from .forms import PostSearchForm
@@ -107,3 +109,39 @@ class SearchFormView(FormView):
         # 최종적으로 HttpResponse 객체를 반환함, form_valid() 함수는 보통 리다이렉트 처리를 위해 HttpResponseRedirect 객체를 반환하는데
         # render 함수에 의해 리다이렉트 처리가 되지 않음
         return render(self.request, self.template_name, context)
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    # 폼의 slug 입력 항목에 초기값을 지정, slug 필드는 title 필드로부터 자동으로 채워지는 필드
+    # 이 기능은 models 파일의 Post 모델 정의에 있는 save() 함수에서 수행
+    # PostCreateView 뷰에서 레코드 생성 폼을 보여줄 때 slug 필드는 입력하지 말라는 의미로
+    # 초기값 문구를 넣음 문구는 임의로 내가 원하는 값 넣어도됨.
+    initial = {'slug': 'auto-filling-do-not-input'}
+    # slug 필드를 처리하는 또 다른 방법은 fields 속성에서 제외해 폼에 나타나지 않도록 하는 방법
+    # 폼에는 보이지 않지만 Post 모델의 save() 함수에 의해 테이블의 레코드에는 자동으로 채워짐
+    # fields = ['title', 'description', 'content', 'tag']
+    success_url = reverse_lazy('blog:index')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
+
+class PostChangeLV(LoginRequiredMixin, ListView):
+    template_name = 'blog/post_change_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(owner=self.request.user)
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tag']
+    success_url = reverse_lazy('blog:index')
+
+
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')

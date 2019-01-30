@@ -15,6 +15,10 @@ urlpatterns = [
     # 태그 클라우드를 보여주기 위한 뷰로 템플릿 처리만 하면 되므로 TemplateView를 상속받아 정의
     path('tag/', TagTV.as_view(), name='tag_cloud'),
     path('tag/<tag>/', PostTOL.as_view(), name='tagged_object_list'),
-    path('search/', SearchFormView.as_view(), name ='search')
-
+    path('search/', SearchFormView.as_view(), name='search'),
+    # 콘텐츠 편집기능
+    path('add/', PostCreateView.as_view(), name='add'),
+    path('change/', PostChangeLV.as_view(), name='change'),
+    path('post/<pk>/update/', PostUpdateView.as_view(), name='update'),
+    path('post/<pk>/delete/', PostDeleteView.as_view(), name='delete'),
 ]
