@@ -2,7 +2,7 @@
 
 + login.html
 	+ AuthenticationForm 장고에서 제공해주는 로그인용 기본 폼
-+ password_change_form.html
++ `password_change_form.html`
 	+ PasswordChangeForm 장고에서 제공해주는 기본 폼
 
 ```
@@ -64,4 +64,21 @@ POST 요청을 처리한 후, 즉 로그인이 성공한 경우에 {{next}} 변�
     </form>
 </div>
 {% endblock %}
+```
+
+## 함수형 login_required()를 클래스형으로쓸때 정의하기
+
+```
+# login_required() 함수는 함수에만 적용할수 있으므로 클래스형 뷰에서는 LoginRequireMixin 클래스를 상속받아
+# 사용하면 login_required() 데코레이터 기능을 제공할 수 있음
+class LoginRequiredMixin(object):
+    # as_view() 메소드를 인스턴스 메소드가 아니라 클래스 메소드로 정의, as_view() 메소드는 항상 클래스 메소드로 정의
+    @classmethod
+    def as_view(cls, **initkwargs):
+        # super() 메소드에 의해 LoginRequiredMixin의 상위 클래스에 있는 as_view() 메소드가
+        # view 변수에 할당
+        view = super(LoginRequiredMixin, cls).as_view(**initkwargs)
+        # view 변수, 즉 LoginRequiredMixin의 상위 클래스에 있는 as_view() 메소드에 Login_required()
+        # 기능을 적용하고 그 결과를 반환
+        return login_required(view)
 ```

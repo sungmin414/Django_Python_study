@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 # 직접 만든 커스텀 필드
@@ -7,6 +8,8 @@ from .fields import ThumbnailImageField
 class Album(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField('One Line Description', max_length=100, blank=True)
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
 
     class Meta:
         ordering = ['name']
@@ -25,6 +28,7 @@ class Photo(models.Model):
     image = ThumbnailImageField(upload_to='photo/%Y/%m')
     description = models.TextField('Photo Description', blank=True)
     upload_date = models.DateTimeField('Upload Date', auto_now_add=True)
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['title']
@@ -34,4 +38,5 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('photo:photo_detail', args=(self.id,))
+
 
