@@ -8,5 +8,5 @@ from .models import Album, Photo
 
 # 1:N 관계인 Album, Photo 테이블을 이용해 사진 인라인 폼셋을 만듬
 PhotoInlineFormSet = inlineformset_factory(Album, Photo,
-    fields=['image', 'title', 'description'],
-    extra=2)
+                                           fields=['image', 'title', 'description'],
+                                           extra=2)

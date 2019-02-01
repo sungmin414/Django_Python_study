@@ -1,9 +1,10 @@
+# from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from app.config.views import LoginRequiredMixin
-from app.photo.forms import PhotoInlineFormSet
+from config.views import LoginRequiredMixin
+from .forms import PhotoInlineFormSet
 from .models import Album, Photo
 
 
