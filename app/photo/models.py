@@ -10,7 +10,6 @@ class Album(models.Model):
     description = models.CharField('One Line Description', max_length=100, blank=True)
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-
     class Meta:
         ordering = ['name']
 
