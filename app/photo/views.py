@@ -1,9 +1,9 @@
-# from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from config.views import LoginRequiredMixin
+# from config.views import LoginRequiredMixin
 from .forms import PhotoInlineFormSet
 from .models import Album, Photo
 
@@ -66,17 +66,17 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
     fields = ['name', 'description']
     template_name = 'photo/album_form.html'
 
-    def get_context_date(self, **kwargs):
-        context = super(AlbumPhotoCV, self).get_context_date(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(AlbumPhotoCV, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = PhotoInlineFormSet(self.request.POST, self.request.Files)
+            context['formset'] = PhotoInlineFormSet(self.request.POST, self.request.FILES)
         else:
             context['formset'] = PhotoInlineFormSet()
         return context
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        context = self.get_context_date()
+        context = self.get_context_data()
         formset = context['formset']
         for photoform in formset:
             photoform.instance.owner = self.request.user
@@ -86,7 +86,7 @@ class AlbumPhotoCV(LoginRequiredMixin, CreateView):
             formset.save()
             return redirect(self.object.get_absolute_url())
         else:
-            return self.render_to_response(self.get_context_date(form=form))
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class AlbumPhotoUV(LoginRequiredMixin, UpdateView):
